@@ -64,12 +64,12 @@ public class BookShelfController {
     }
 
 
-    @PostMapping("/removeByRegex")
-    public String removeBookByRegex(@RequestParam(value = "queryRegex") String queryRegex) {
-        //TODO Интерфейс и логика удаления записей по полям author, title и size
-        if (!bookService.removeBookByRegex(queryRegex)) {
-            logger.info("not found book Regex: " + queryRegex);
-        }
-        return "redirect:/books/shelf";
-    }
+//    @PostMapping("/removeByRegex")
+//    public String removeBookByRegex(@RequestParam(value = "queryRegex") String queryRegex) {
+//        //TODO Интерфейс и логика удаления записей по полям author, title и size
+//        if (!bookService.removeBookByRegex(queryRegex)) {
+//            logger.info("not found book Regex: " + queryRegex);
+//        }
+//        return "redirect:/books/shelf";
+//    }
 }

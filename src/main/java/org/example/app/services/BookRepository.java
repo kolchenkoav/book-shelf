@@ -38,20 +38,20 @@ public class BookRepository implements ProjectRepository<Book> {
         return false;
     }
 
-    @Override
-    public boolean removeItemByRegex(String queryRegex) {
-        boolean isFound = false;
-        Pattern pattern = Pattern.compile(queryRegex);
-        for (Book book : retreiveAll()) {
-            Matcher matcher1 = pattern.matcher(book.getAuthor());
-            Matcher matcher2 = pattern.matcher(book.getTitle());
-            Matcher matcher3 = pattern.matcher(String.valueOf(book.getSize()));
-            if (matcher1.find() || matcher2.find() || matcher3.find()) {
-                isFound = true;
-                logger.info("remove book (by Regex " + queryRegex + ") completed: " + book);
-                repo.remove(book);
-            }
-        }
-        return isFound;
-    }
+//    @Override
+//    public boolean removeItemByRegex(String queryRegex) {
+//        boolean isFound = false;
+//        Pattern pattern = Pattern.compile(queryRegex);
+//        for (Book book : retreiveAll()) {
+//            Matcher matcher1 = pattern.matcher(book.getAuthor());
+//            Matcher matcher2 = pattern.matcher(book.getTitle());
+//            Matcher matcher3 = pattern.matcher(String.valueOf(book.getSize()));
+//            if (matcher1.find() || matcher2.find() || matcher3.find()) {
+//                isFound = true;
+//                logger.info("remove book (by Regex " + queryRegex + ") completed: " + book);
+//                repo.remove(book);
+//            }
+//        }
+//        return isFound;
+//    }
 }
