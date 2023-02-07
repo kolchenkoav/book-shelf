@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.example.app.services.BookService;
 import org.example.web.dto.Book;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = "/books")
+@Scope("singleton")
 public class BookShelfController {
 
-    private Logger logger = Logger.getLogger(BookShelfController.class);
+    private final Logger logger = Logger.getLogger(BookShelfController.class);
     private BookService bookService;
 
     @Autowired
@@ -25,7 +27,7 @@ public class BookShelfController {
 
     @GetMapping("/shelf")
     public String books(Model model) {
-        logger.info("got book shelf");
+        logger.info(this.toString());
         model.addAttribute("book", new Book());
         model.addAttribute("bookList", bookService.getAllBooks());
         return "book_shelf";
@@ -55,7 +57,7 @@ public class BookShelfController {
     }
 
     @PostMapping("/remove")
-    public String removeBook(@RequestParam(value = "bookIdToRemove") Integer bookIdToRemove) {
+    public String removeBook(@RequestParam(value = "bookIdToRemove") String bookIdToRemove) {
         //TODO Устранён баг при попытке удаления записи по несуществующему id
         if (!bookService.removeBookById(bookIdToRemove)) {
             logger.info("not found book ID number: " + bookIdToRemove);
@@ -63,13 +65,4 @@ public class BookShelfController {
         return "redirect:/books/shelf";
     }
 
-
-//    @PostMapping("/removeByRegex")
-//    public String removeBookByRegex(@RequestParam(value = "queryRegex") String queryRegex) {
-//        //TODO Интерфейс и логика удаления записей по полям author, title и size
-//        if (!bookService.removeBookByRegex(queryRegex)) {
-//            logger.info("not found book Regex: " + queryRegex);
-//        }
-//        return "redirect:/books/shelf";
-//    }
 }
