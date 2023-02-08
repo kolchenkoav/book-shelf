@@ -30,6 +30,10 @@ public class BookService {
         return bookRepo.removeItemById(bookIdToRemove);
     }
 
+    public boolean removeBookByRegex(String queryRegex) {
+        return bookRepo.removeItemByRegex(queryRegex);
+    }
+
     private void defaultInit() {
         logger.info("default INIT in book service");
     }
