@@ -1,5 +1,7 @@
 package org.example.app.services;
 
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.example.web.dto.Book;
 import org.springframework.beans.BeansException;
@@ -10,7 +12,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotEmpty;
+
+
 import javax.validation.constraints.NotNull;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -66,7 +69,7 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
 
     @Override
     public boolean removeItemByRegex(@NotNull String queryRegex) {
-        if (queryRegex.isEmpty()) {
+        if (StringUtils.isEmpty(queryRegex)) {
             logger.info("Regex is empty...");
             return false;
         }
