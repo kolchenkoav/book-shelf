@@ -1,7 +1,6 @@
 package org.example.web.controllers;
 
 import org.apache.log4j.Logger;
-import org.example.app.exceptions.BookShelfLoginException;
 import org.example.app.services.BookService;
 import org.example.web.dto.Book;
 import org.example.web.dto.BookIdToRemove;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,6 +43,11 @@ public class BookShelfController {
     @PostMapping("/save")
     public String saveBook(@Valid Book book, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            //logger.info(bindingResult.getFieldErrorCount());
+            bindingResult.getFieldErrors().forEach(s->{
+                logger.info(s.getField() + " " + s.getDefaultMessage());
+            });
+            logger.info(bindingResult.toString());
             model.addAttribute("book", book);
             model.addAttribute("bookIdToRemove", new BookIdToRemove());
             model.addAttribute("bookList", bookService.getAllBooks());
@@ -67,7 +72,11 @@ public class BookShelfController {
     }
 
     @PostMapping("/uploadFile")
-    public String uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
+    public String uploadFile(@RequestParam("file") @NotNull(message = "File is null") MultipartFile file) throws Exception {
+        if (file.isEmpty()) {
+            logger.info("File is null.");
+            return "redirect:/books/shelf";
+        }
         String name = file.getOriginalFilename();
         byte[] bytes = file.getBytes();
 

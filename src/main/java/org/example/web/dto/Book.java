@@ -2,17 +2,20 @@ package org.example.web.dto;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 
 public class Book {
     private Integer id;
 
-
+    @NotEmpty(message = "Author cannot be empty.")
     private String author;
 
-
+    @NotEmpty(message = "Title cannot be empty.")
     private String title;
 
     @Digits(integer = 4, fraction = 0)
+    @NotNull(message = "Size must be digit and less than 4 signs.")
     private Integer size;
 
     public Integer getId() {
