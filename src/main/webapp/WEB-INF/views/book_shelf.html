@@ -14,6 +14,7 @@
         #books {
             width: 50%;
             border-collapse: collapse;
+
         }
 
         table {
@@ -36,12 +37,15 @@
             <tr>
                 <td>
                     <input type="text" placeholder="author" th:field="*{author}">
+<!--                    <p th:if="${#fields.hasErrors()}">author must be not empty</p>-->
                 </td>
                 <td>
                     <input type="text" placeholder="book_title" th:field="*{title}">
+<!--                    <p th:if="${#fields.hasErrors()}">book_title must be not empty</p>-->
                 </td>
                 <td>
                     <input type="text" placeholder="size (pages)" th:field="*{size}">
+                    <p th:if="${#fields.hasErrors()}">field value must be digit and less than 4 signs</p>
                 </td>
                 <td>
                     <input type="submit" value="save">
@@ -50,14 +54,18 @@
         </table>
     </form>
 
-    <form method="post" th:action="@{/books/remove}">
+
+    <form method="post" th:action="@{/books/remove}" th:object="${bookIdToRemove}">
         <table>
             <tr>
                 <td>
-                    <input type="text" placeholder="id number" th:name="bookIdToRemove">
+                    <input type="text" placeholder="id number" th:field="*{id}">
                 </td>
                 <td>
                     <input type="submit" value="remove">
+                </td>
+                  <td th:if="${#fields.hasErrors()}">
+                    <p>Wrong id or not found</p>
                 </td>
             </tr>
         </table>
@@ -77,6 +85,7 @@
             <td th:text="${book.size}"></td>
         </tr>
     </table>
+
 </div>
 </body>
 </html>
